@@ -1,13 +1,13 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 // import spotifyApi from 'spotify-web-api-node'
-// import axios from 'axios'
+import axios from 'axios'
 
 
-const Auth = () => {
+const Auth = ({setProfileSet, profileSet, setUser, token, setToken}) => {
 
 
-const [token, setToken] = useState("")
+// const [token, setToken] = useState("")
 
 
 const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize"
@@ -31,13 +31,23 @@ useEffect(() => {
     }
 
     setToken(token)
-
-}, [])
+    getUserData()
+}, [token])
 
 
 const logout = () => {
     setToken("")
     window.localStorage.removeItem("token")
+    setProfileSet(false)
+}
+
+const getUserData = () => {
+    setTimeout(() => {
+       axios.get('https://api.spotify.com/v1/me', 
+       {headers: {'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json'}})
+       .then((theUser) => setUser(theUser.data))
+    }, 800)
+
 }
 
 
@@ -45,9 +55,10 @@ const logout = () => {
     return (
         <div>
  {!token ?
-<a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}>Login to Spotify</a>
+<a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}>Log in to Spotify</a>
        : <button onClick={logout}>Log out</button>
  }
+ <p onClick={getUserData}>get user data</p>
        </div>
     )
 }
