@@ -1,6 +1,6 @@
 import './App.css';
 import { useEffect, useState } from 'react';
-import Profile from './components/Profile';
+import TracksList from './components/TracksList';
 import Auth from './components/Auth'
 const App = () => {
 
@@ -14,7 +14,7 @@ const App = () => {
     <div className="App">
    
      <Auth setProfileSet={setProfileSet} profileSet={profileSet} setUser={setUser} token={token} setToken={setToken}/>
-     <Profile user={user} token={token} />
+     <TracksList token={token} />
     </div>
   );
 }

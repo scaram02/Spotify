@@ -7,14 +7,13 @@ import axios from 'axios'
 const Auth = ({setProfileSet, profileSet, setUser, token, setToken}) => {
 
 
-// const [token, setToken] = useState("")
 
 
 const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize"
 const RESPONSE_TYPE = "token"
 const CLIENT_ID = process.env.REACT_APP_CLIENT_ID
 const REDIRECT_URI = "http://localhost:3000"
-
+const SCOPE = 'user-top-read playlist-read-collaborative playlist-read-private'
 
 
 
@@ -55,7 +54,7 @@ const getUserData = () => {
     return (
         <div>
  {!token ?
-<a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}>Log in to Spotify</a>
+<a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`}>Log in to Spotify</a>
        : <button onClick={logout}>Log out</button>
  }
  <p onClick={getUserData}>get user data</p>
