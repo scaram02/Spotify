@@ -2,6 +2,9 @@ import './App.css';
 import { useEffect, useState } from 'react';
 import TracksList from './components/TracksList';
 import Auth from './components/Auth'
+import PlaylistFollower from './components/PlaylistFollower'
+
+
 const App = () => {
 
   const [profileSet, setProfileSet] = useState(false)
@@ -13,8 +16,13 @@ const App = () => {
   return (
     <div className="App">
    
-     <Auth setProfileSet={setProfileSet} profileSet={profileSet} setUser={setUser} token={token} setToken={setToken}/>
-     <TracksList token={token} />
+     <Auth setProfileSet={setProfileSet} token={token} setToken={setToken}/>
+     { profileSet &&
+     <div>
+    {/* <PlaylistFollower token={token}/> */}
+       <TracksList token={token} />
+     </div>
+     }
     </div>
   );
 }

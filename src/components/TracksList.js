@@ -9,7 +9,7 @@ const TracksList = ({token}) => {
 
 useEffect(() => {
 
-   if (token.length > 0){
+   if (token){
        axios.get(`https://api.spotify.com/v1/me/top/tracks?time_range=long_term&limit=15`, 
         {headers: {'Authorization': `Bearer ${token}`,'Content-Type': 'application/json'}})
         .then((theList) => setTracks(theList.data.items))
@@ -17,7 +17,7 @@ useEffect(() => {
    } else {
        console.log('no token yet')
    }
-})
+}, [token])
 
 
 

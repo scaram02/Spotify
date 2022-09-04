@@ -1,10 +1,9 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
-// import spotifyApi from 'spotify-web-api-node'
 import axios from 'axios'
 
 
-const Auth = ({setProfileSet, profileSet, setUser, token, setToken}) => {
+const Auth = ({setProfileSet,token, setToken}) => {
 
 
 
@@ -29,8 +28,11 @@ useEffect(() => {
         window.localStorage.setItem("token", token)
     }
 
-    setToken(token)
-    getUserData()
+    axios.get('https://api.spotify.com/v1/me', 
+    {headers: {'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json'}})
+    .then(() => setToken(token))
+    .then(() => setProfileSet(true))
+    .catch(() => console.log('error, please log in'))
 }, [token])
 
 
@@ -40,16 +42,6 @@ const logout = () => {
     setProfileSet(false)
 }
 
-const getUserData = () => {
-    setTimeout(() => {
-       axios.get('https://api.spotify.com/v1/me', 
-       {headers: {'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json'}})
-       .then((theUser) => setUser(theUser.data))
-    }, 800)
-
-}
-
-
 
     return (
         <div>
@@ -57,7 +49,6 @@ const getUserData = () => {
 <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`}>Log in to Spotify</a>
        : <button onClick={logout}>Log out</button>
  }
- <p onClick={getUserData}>get user data</p>
        </div>
     )
 }
